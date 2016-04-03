@@ -152,11 +152,11 @@ struct node* insert(struct node* n, int data, int *res) {
   }
   
   //checking for right right case
-  if(balance < 1 && data > n->right->data)
+  if(balance < -1 && data > n->right->data)
     return leftRotate(n);
    
   //checking for right left case
-  if(balance < 1 && data < n->right->data){
+  if(balance < -1 && data < n->right->data){
     n->right = rightRotate(n->right);
     return leftRotate(n);
   }
