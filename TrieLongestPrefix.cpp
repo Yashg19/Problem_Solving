@@ -25,6 +25,7 @@ public:
     count = 0;
   }
   
+  //function to insert the given word or vector of strings input into the Trie data structure
   void insert(string word) {
     count++;
     TrieNode* node = getNode(word, true);
@@ -32,17 +33,25 @@ public:
     node->data = count;
   }
   
+  //search if the word exist in the key or not
   bool search(string word) {
     TrieNode* res = getNode(word, false);
     return (res != NULL && res->hasValue);
   }
   
+  //check if there is an input in the trie that starts with a given key
   bool startsWith(string prefix) {
     return (getNode(prefix, false) != NULL);
   }
   
+  //longest common prefix given a key
   string prefixMatch(string key) {
     return prefixM(key);
+  }
+
+  //to calculate longest common prefix - given input vector of strings
+  string LCP() {
+    return LCPUtil();
   }
   
 private:
@@ -89,7 +98,32 @@ private:
     else
       return s;
   }
+
+  //Function to calculate longest common prefix by reading all the input strings (first step is to insert all the words in the trie)
+  string LCPUtil() {
+    TrieNode* temp = root;
+    return LCPstr(temp);
+  }
   
+  string LCPstr(TrieNode* temp) {
+    int i;
+    if(temp == NULL)
+      return string("");
+    for(i = 0; i < 26; i++)
+      if(temp->child[i] != NULL)
+        break;
+    if(i == 25)
+      return string("");
+    
+    char ch = 'a' + i;
+    
+    string str;
+    str.insert(str.begin(), ch);
+    if(temp->hasValue)
+      return string("");
+    else
+      return str + LCPstr(temp->child[i]);
+  }
 };
 
 int main(){
